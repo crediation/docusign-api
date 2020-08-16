@@ -1,0 +1,133 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "description": "Docusign APIs in Node Express backend service",
+      "version": "1.0.0",
+      "title": "Docusign API",
+      "contact": {
+        "email": "info@crediation.com"
+      }
+    },
+    "securityDefinitions": {
+      "Bearer": {
+        "description": "Docusign APIs allows a valid JWT token as an authentication method which must be passed in all the queries in the 'Authorization' header.\n The following syntax must be used in the 'Authorization' header:\n Bearer xxxxxx.yyyyyyy.zzzzzz",
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    },
+    "host": "localhost:3001",
+    "basePath": "/",
+    "schemes": [
+      "http"
+    ],
+    "paths": {
+      "/templates": {
+        "get": {
+          "summary": "Get all templates",
+          "produces": ["application/json"],
+          "consumes": ["application/json"],
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Get all account's templates",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Envelope"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/task": {
+        "post": {
+          "summary": "Add a new task",
+          "description": "",
+          "operationId": "addTask",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Task object to be created.",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Task"
+              }
+            }
+          ],
+          "responses": {
+            "405": {
+              "description": "Invalid input"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "Envelope": {
+        "type": "object",
+        "properties": {
+          "templateId": {"type": "string"},
+          "name": {"type": "string"},
+          "shared": {"type": "string"},
+          "password": {"type": "string"},
+          "description": {"type": "string"},
+          "lastModified": {"type": "string"},
+          "created": {"type": "string"},
+          "uri": {"type": "string"},
+          "folderName": {"type": "string"},
+          "folderId": {"type": "string"},
+          "folderUri": {"type": "string"},
+          "owner": {"$ref": "#/definitions/Owner"},
+          "emailSubject": {"type": "string"},
+          "emailBlurb": {"type": "string"},
+          "signingLocation": {"type": "string"},
+          "authoritativeCopy": {"type": "string"},
+          "enforceSignerVisibility": {"type": "string"},
+          "enableWetSign": {"type": "string"},
+          "allowMarkup": {"type": "string"},
+          "allowReassign": {"type": "string"}
+        } 
+      },
+      "Owner": {
+        "type": "object",
+        "properties": {
+          "userName": {"type": "string"},
+          "userId": {"type": "string"},
+          "email": {"type": "string"}
+        }
+      },
+      "Task": {
+        "type": "object",
+        "required": [
+          "name",
+          "completed"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "5daa67e25967673780ccc4d9"
+          },
+          "name": {
+            "type": "string",
+            "example": "Task 1"
+          },
+          "completed": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
