@@ -383,6 +383,41 @@
             }
           }
         }
+      },
+      "/tab_definitions": {
+        "get": {
+          "summary": "Get an envelope details",
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Get all tab definitions",
+              "schema": {
+                "type": "object",
+                "properties":{
+                  "tabs": {
+                    "type": "array",
+                    "items": { 
+                      "$ref": "#/definitions/Tab"
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not found"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
       }
     },
     "definitions": {
@@ -568,6 +603,34 @@
           "allowMarkup": {"type": "string"},
           "allowReassign": {"type": "string"}
         } 
+      },
+      "Tab": {
+        "type": "object",
+        "properties": {
+          "font": {"type": "string", "example": "default"},
+          "bold": {"type": "string", "example": "false"},
+          "italic": {"type": "string", "example": "false"},
+          "underline": {"type": "string", "example": "false"},
+          "fontColor": {"type": "string", "example": "default"},
+          "fontSize": {"type": "string", "example": "size7"},
+          "anchor": {"type": "string", "example": ""},
+          "anchorXOffset": {"type": "integer", "example": "0"},
+          "anchorYOffset": {"type": "integer", "example": "0"},
+          "anchorUnits": {"type": "string", "example": "pixels"},
+          "anchorIgnoreIfNotPresent": {"type": "string", "example": "false"},
+          "anchorMatchWholeWord": {"type": "string", "example": "false"},
+          "anchorCaseSensitive": {"type": "string", "example": "false"},
+          "anchorHorizontalAlignment": {"type": "string", "example": "false"},
+          "height": {"type": "integer", "example": "0"},
+          "width": {"type": "integer", "example": "0"},
+          "customTabId": {"type": "string", "example": ""},
+          "shared": {"type": "string", "example": "false"},
+          "tabLabel": {"type": "string", "example": ""},
+          "name": {"type": "string", "example": ""},
+          "type": {"type": "string", "example": "approve"},
+          "lastModifiedByUserId": {"type": "string", "example": ""},
+          "editable": {"type": "string", "example": "false"}
+        }
       },
       "Owner": {
         "type": "object",

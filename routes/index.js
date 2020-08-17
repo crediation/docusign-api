@@ -85,9 +85,15 @@ router.get('/envelopes/:envelopeId/recipients', function(req, res, next) {
   docusignGet(req, res, next, endpoint);
 });
 
-/* GET - Get a list of Envelopes' recipients */
+/* GET - Get a list of Envelope recipient's signature */
 router.get('/envelopes/:envelopeId/recipients/:recipientId/signature', function(req, res, next) {
   const endpoint = `accounts/${accountIdGuid}/envelopes/${req.params.envelopeId}/recipients/${req.params.recipientId}/signature`;
+  docusignGet(req, res, next, endpoint);
+});
+
+/* GET - List custom tabs */
+router.get('/tab_definitions', function(req, res, next) {
+  const endpoint = `accounts/${accountIdGuid}/tab_definitions`;
   docusignGet(req, res, next, endpoint);
 });
 
