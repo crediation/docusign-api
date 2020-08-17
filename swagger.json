@@ -24,6 +24,47 @@
     "produces": ["application/json"],
     "consumes": ["application/json"],
     "paths": {
+      "/accounts/{accountIdGuid}": {
+        "get": {
+          "summary": "Get account details. Provide different accountIdGuid or leave blank to use the one set in env variables",
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "accountIdGuid",
+              "description": "API account ID.",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Get account details",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Account"
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not found"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
       "/templates": {
         "get": {
           "summary": "Get all templates",
@@ -41,6 +82,15 @@
                   "$ref": "#/definitions/Template"
                 }
               }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not found"
+            },
+            "500": {
+              "description": "Internal Server Error"
             }
           }
         }
@@ -133,6 +183,9 @@
                 }
               }
             },
+            "400": {
+              "description": "Bad Request"
+            },
             "401": {
               "description": "Unauthorized"
             },
@@ -172,6 +225,9 @@
                   }
                 }
               }
+            },
+            "400": {
+              "description": "Bad Request"
             },
             "401": {
               "description": "Unauthorized"
@@ -220,6 +276,9 @@
                 }
               }
             },
+            "400": {
+              "description": "Bad Request"
+            },
             "401": {
               "description": "Unauthorized"
             },
@@ -234,6 +293,38 @@
       }
     },
     "definitions": {
+      "Account": {
+        "type": "object",
+        "properties": {
+          "currentPlanId": {"type": "string", "example": "3afafb83-3418-4ace-87b0-dd39e147c5a0"},
+          "planName": {"type": "string", "example": "DEVCENTER_DEMO_APRIL2013"},
+          "planStartDate": {"type": "string", "example": "2020-08-05T12:17:15.8170000Z"},
+          "planEndDate": {"type": "string", "example": "2021-08-05T12:17:15.8170000Z"},
+          "billingPeriodStartDate": {"type": "string", "example": "2020-08-05T07:00:00.0000000Z"},
+          "billingPeriodEndDate": {"type": "string", "example": "2020-09-05T07:00:00.0000000Z"},
+          "billingPeriodEnvelopesSent": {"type": "integer", "example": "19"},
+          "billingPeriodEnvelopesAllowed": {"type": "string", "example": "unlimited"},
+          "billingPeriodDaysRemaining": {"type": "integer", "example": "19"},
+          "canUpgrade": {"type": "string", "example": "false"},
+          "canCancelRenewal": {"type": "string", "example": "false"},
+          "envelopeSendingBlocked": {"type": "string", "example": "false"},
+          "envelopeUnitPrice": {"type": "string", "example": "$0.00"},
+          "suspensionStatus": {"type": "string", "example": ""},
+          "accountName": {"type": "string", "example": "company name"},
+          "connectPermission": {"type": "string", "example": "full"},
+          "docuSignLandingUrl": {"type": "string", "example": "http://www.docusign.com/products/sign_up/buy_now.php"},
+          "distributorCode": {"type": "string", "example": "DEVCENTER_DEMO_APRIL2013"},
+          "accountIdGuid": {"type": "string", "example": "1d75b9db-158c-4e91-b8ae-726571a3db28"},
+          "externalAccountId": {"type": "integer", "example": "1114"},
+          "currencyCode": {"type": "string", "example": "USD"},
+          "forgottenPasswordQuestionsCount": {"type": "integer", "example": "1"},
+          "paymentMethod": {"type": "string", "example": "purchase_order"},
+          "createdDate": {"type": "string", "example": "2020-08-05T12:17:15.3200000Z"},
+          "isDowngrade": {"type": "string", "example": "false"},
+          "billingProfile": {"type": "string", "example": "web"},
+          "allowTransactionRooms": {"type": "string", "example": "false"}
+        }
+      },
       "Envelope": {
         "type": "object",
         "properties": {
