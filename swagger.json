@@ -201,6 +201,45 @@
           }
         }
       },
+      "/envelopes/{envelopeId}": {
+        "get": {
+          "summary": "Get an envelope details",
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "envelopeId",
+              "description": "Envelope ID.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Envelope details",
+              "schema": {
+                "$ref": "#/definitions/Envelope"
+              }
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not found"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
       "/envelopes/{envelopeId}/documents": {
         "get": {
           "summary": "Get all the documents in an envelope",
@@ -387,13 +426,29 @@
           "recipientsUri": {"type": "string", "example": "/envelopes/envelope_id/recipients"},
           "attachmentsUri": {"type": "string", "example": "/envelopes/envelope_id/attachments"},
           "envelopeUri": {"type": "string", "example": "/envelopes/envelope_id"},
+          "emailSubject": {"type": "string", "example": "Please sign the loan contract"},
           "envelopeId": {"type": "string", "example": "envelope_id"},
           "customFieldsUri": {"type": "string", "example": "/envelopes/envelope_id/custom_fields"},
+          "autoNavigation": {"type": "string", "example": "true"},
+          "envelopeIdStamping": {"type": "string", "example": "true"},
           "notificationUri": {"type": "string", "example": "/envelopes/envelope_id/notification"},
+          "enableWetSign": {"type": "string", "example": "true"},
+          "allowMarkup": {"type": "string", "example": "false"},
+          "allowReassign": {"type": "string", "example": "true"},
+          "createdDateTime": {"type": "string", "example": "2020-08-13T09:42:26.3270000Z"},
+          "lastModifiedDateTime": {"type": "string", "example": "2020-08-13T09:42:26.3430000Z"},
+          "initialSentDateTime": {"type": "string", "example": "2020-08-13T09:42:28.0000000Z"},
+          "sentDateTime": {"type": "string", "example": "2020-08-13T09:42:28.0000000Z"},
           "statusChangedDateTime": {"type": "string", "example": "2020-08-05T12:22:39.8400000Z"},
           "documentsCombinedUri": {"type": "string", "example": "/envelopes/envelope_id/documents/combined"},
           "certificateUri": {"type": "string", "example": "/envelopes/envelope_id/documents/certificate"},
-          "templatesUri": {"type": "string", "example": "/envelopes/envelope_id/templates"}
+          "templatesUri": {"type": "string", "example": "/envelopes/envelope_id/templates"},
+          "purgeState": {"type": "string", "example": "unpurged"},
+          "is21CFRPart11": {"type": "string", "example": "false"},
+          "signerCanSignOnMobile": {"type": "string", "example": "true"},
+          "isSignatureProviderEnvelope": {"type": "string", "example": "false"},
+          "allowViewHistory": {"type": "string", "example": "true"},
+          "disableResponsiveDocument": {"type": "string", "example": "false"}
         }
       },
       "CreateEnvelope": {
