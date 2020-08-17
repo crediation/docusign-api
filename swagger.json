@@ -168,24 +168,54 @@
                 "properties":{
                   "data": {
                     "type": "object",
-                    "properties": {
-                      "signers": {
-                        "type": "array",
-                        "items": {
-                          "$ref": "#/definitions/Signers"
-                        }
-                      },
-                      "agents": {"type": "string"},
-                      "editors": {"type": "string"},
-                      "intermediaries": {"type": "string"},
-                      "carbonCopies": {"type": "string"},
-                      "certifiedDeliveries": {"type": "string"},
-                      "inPersonSigners":{"type": "string"},
-                      "seals": {"type": "string"},
-                      "witnesses": {"type": "string"},
-                      "recipientCount": {"type": "integer", "example": "1"},
-                      "currentRoutingOrder": {"type": "integer", "example": "1"}
-                    } 
+                    "$ref": "#/definitions/Recipients"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not found"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/envelopes/{envelopeId}/recipients/{recipientId}/signature": {
+        "get": {
+          "summary": "Get a recipient's signature",
+          "security": [
+            { "Bearer": [] }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "envelopeId",
+              "description": "Envelope ID.",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "path",
+              "name": "recipientId",
+              "description": "recipinet ID.",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Recipient's signature",
+              "schema": {
+                "type": "object",
+                "properties":{
+                  "data": {
+                    "type": "object",
+                    "$ref": "#/definitions/Signature"
                   }
                 }
               }
@@ -224,7 +254,7 @@
           "documentId": {"type": "integer", "example": "1"},
           "name": {"type": "string", "example": "loan-application.pdf"},
           "type": {"type": "string", "example": "content"},
-          "uri": {"type": "string", "example": "/envelopes/a022abf1-0f3c-4c6d-a6bb-c6f461fd163e/documents/1"},
+          "uri": {"type": "string", "example": "/envelopes/envelope_id/documents/1"},
           "order": {"type": "integer", "example": "1"},
           "pages": {"type": "integer", "example": "1"},
           "display": {"type": "string", "example": "inline"},
@@ -238,6 +268,27 @@
             }
           }
         }  
+      },
+      "Recipients": {
+        "type": "object",
+        "properties": {
+          "signers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Signers"
+            }
+          },
+          "agents": {"type": "string"},
+          "editors": {"type": "string"},
+          "intermediaries": {"type": "string"},
+          "carbonCopies": {"type": "string"},
+          "certifiedDeliveries": {"type": "string"},
+          "inPersonSigners":{"type": "string"},
+          "seals": {"type": "string"},
+          "witnesses": {"type": "string"},
+          "recipientCount": {"type": "integer", "example": "1"},
+          "currentRoutingOrder": {"type": "integer", "example": "1"}
+        }
       },
       "Signers": {
         "type": "object",
@@ -258,6 +309,22 @@
           "signedDateTime": {"type": "string", "example": "2020-08-05T12:22:39.8400000Z"},
           "deliveredDateTime": {"type": "string", "example": "2020-08-05T12:21:30.6730000Z"},
           "deliveryMethod": {"type": "string", "example": "email"}
+        }
+      },
+      "Signature":{
+        "type": "object",
+        "properties": {
+          "signatureId": {"type": "string", "example": "47b5aaf4-e570-461d-8fc8-662dfd8eb7cb"},
+          "signatureFont": {"type": "string", "example": "7_DocuSign"},
+          "signatureType": {"type": "string", "example": "rubberstamp"},
+          "signatureName": {"type": "string", "example": "sample name"},
+          "signatureImageUri": {"type": "string", "example": "/envelopes/envelope_id/recipients/recipient_id/signature_image"},
+          "signatureInitials": {"type": "string", "example": "PP"},
+          "initialsImageUri": {"type": "string", "example": "/envelopes/envelope_id/recipients/recipient_id/initials_image"},
+          "createdDateTime": {"type": "string", "example": "2020-08-05T12:21:51.7830000Z"},
+          "adoptedDateTime": {"type": "string", "example": "2020-08-05T12:21:51.7970000Z"},
+          "signature150ImageId": {"type": "string", "example": "06c096c5-1040-4083-aae8-42a80c83c9b1"},
+          "initials150ImageId": {"type": "string", "example": "dc4762ac-3ab2-4c5e-b72a-8480e2bcd25a"}
         }
       },
       "Template": {

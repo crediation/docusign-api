@@ -66,4 +66,10 @@ router.get('/envelopes/:envelopeId/recipients', function(req, res, next) {
   docusignGet(req, res, next, endpoint);
 });
 
+/* GET - Get a list of Envelopes' recipients */
+router.get('/envelopes/:envelopeId/recipients/:recipientId/signature', function(req, res, next) {
+  const endpoint = `accounts/${accountId}/envelopes/${req.params.envelopeId}/recipients/${req.params.recipientId}/signature`;
+  docusignGet(req, res, next, endpoint);
+});
+
 module.exports = router;
