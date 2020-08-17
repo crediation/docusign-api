@@ -61,6 +61,12 @@ router.post('/envelopes',  function (req, res, next) {
   }); 
 });
 
+/* GET - List account's envelopes */
+router.get('/envelopes', function (req, res, next){
+  const endpoint = `accounts/${accountIdGuid}/envelopes?from_date=${req.query.from_date}`;
+  docusignGet(req, res, next, endpoint);
+});
+
 /* GET - Get a list of Envelopes' documents */
 router.get('/envelopes/:envelopeId/documents', function(req, res, next) {
   const endpoint = `accounts/${accountIdGuid}/envelopes/${req.params.envelopeId}/documents`;

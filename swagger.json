@@ -110,7 +110,7 @@
               "description": "Envelope object to be created.",
               "required": true,
               "schema": {
-                "$ref": "#/definitions/Envelope"
+                "$ref": "#/definitions/CreateEnvelope"
               }
             }
           ],
@@ -140,6 +140,60 @@
             },
             "415": {
               "description": "Unsupported Media Type"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        },
+        "get": {
+          "summary": "Get all envelopes in an account",
+          "security": [
+            { "Bearer": [] }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "from_date",
+              "description": "YYYY-MM-DD, e.g. 2020-08-01",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "List of Envelopes",
+              "schema": {
+                "type": "object",
+                "properties":{
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "resultSetSize": {"type": "integer", "example": "10"},
+                      "totalSetSize":  {"type": "integer", "example": "28"},
+                      "startPosition": {"type": "integer", "example":  "0"},
+                      "endPosition":  {"type": "integer", "example": "27"},
+                      "nextUri":  {"type": "string", "example": ""},
+                      "previousUri":  {"type": "string", "example": ""},
+                      "envelopes": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/definitions/Envelope"
+                        }
+                      }
+                    } 
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not found"
             },
             "500": {
               "description": "Internal Server Error"
@@ -326,6 +380,23 @@
         }
       },
       "Envelope": {
+        "type": "object",
+        "properties": {
+          "status": {"type": "string", "example": "completed"},
+          "documentsUri": {"type": "string", "example": "/envelopes/envelope_id/documents"},
+          "recipientsUri": {"type": "string", "example": "/envelopes/envelope_id/recipients"},
+          "attachmentsUri": {"type": "string", "example": "/envelopes/envelope_id/attachments"},
+          "envelopeUri": {"type": "string", "example": "/envelopes/envelope_id"},
+          "envelopeId": {"type": "string", "example": "envelope_id"},
+          "customFieldsUri": {"type": "string", "example": "/envelopes/envelope_id/custom_fields"},
+          "notificationUri": {"type": "string", "example": "/envelopes/envelope_id/notification"},
+          "statusChangedDateTime": {"type": "string", "example": "2020-08-05T12:22:39.8400000Z"},
+          "documentsCombinedUri": {"type": "string", "example": "/envelopes/envelope_id/documents/combined"},
+          "certificateUri": {"type": "string", "example": "/envelopes/envelope_id/documents/certificate"},
+          "templatesUri": {"type": "string", "example": "/envelopes/envelope_id/templates"}
+        }
+      },
+      "CreateEnvelope": {
         "type": "object",
         "properties": {
           "emailSubject": {"type": "string", "example": "Please sign the loan contract"},
