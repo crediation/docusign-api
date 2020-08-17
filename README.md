@@ -14,6 +14,7 @@ For now the JWT token is fetched from the .env file so you don't need to add it 
 - Go into application dir `cd application`
 - Install dependencies `npm install`
 - Start `npm start`
+- Open browser tab on `http://localhost:{PORT}/api-docs/#/` for a Swagger UI to explore the implemented endpoints.
 
 ###  Contributing to this repo
 This app is just a basic proof of concent on integrating eSign REST APIs in Node Express. Many functionalities of the eSign APIs have not been explored yet.
