@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-      "description": "Docusign APIs in Node Express backend service",
+      "description": "Docusign eSign APIs in Node Express backend service. Ensure you understand the eSign APIs found here: https://apiexplorer.docusign.com/#/esign/restapi",
       "version": "1.0.0",
       "title": "Docusign API",
       "contact": {
@@ -96,6 +96,54 @@
             }
           }
         }
+      },
+      "/envelopes/{envelopeId}/documents": {
+        "get": {
+          "summary": "Get all the documents in an envelope",
+          "security": [
+            { "Bearer": [] }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "envelopeId",
+              "description": "Envelope ID.",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Envelope documents",
+              "schema": {
+                "type": "object",
+                "properties":{
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "envelopeId": {"type": "string", "example": "a022abf1-0f3c-4c6d-a6bb-c6f461fd163e"},
+                      "envelopeDocuments": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/definitions/Document"
+                        }
+                      }
+                    } 
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not found"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
       }
     },
     "definitions": {
@@ -112,6 +160,27 @@
             }
           }
         }
+      },
+      "Document": {
+        "type": "object",
+        "properties": {
+          "documentId": {"type": "integer", "example": "1"},
+          "name": {"type": "string", "example": "loan-application.pdf"},
+          "type": {"type": "string", "example": "content"},
+          "uri": {"type": "string", "example": "/envelopes/a022abf1-0f3c-4c6d-a6bb-c6f461fd163e/documents/1"},
+          "order": {"type": "integer", "example": "1"},
+          "pages": {"type": "integer", "example": "1"},
+          "display": {"type": "string", "example": "inline"},
+          "includeInDownload": {"type": "string", "example": "true"},
+          "signerMustAcknowledge": {"type": "string", "example": "no_interaction"},
+          "authoritativeCopy": {"type": "string", "example": "false"},
+          "availableDocumentTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/AvailableDocumentTypes"
+            }
+          }
+        }  
       },
       "Template": {
         "type": "object",
@@ -153,6 +222,13 @@
           "name": {"type": "string", "example": "Sample User"},
           "roleName": {"type": "string", "example": "applicant"}
         }
+      },
+      "AvailableDocumentTypes": {
+        "type": "object",
+        "properties": {
+          "type": {"type": "string", "example": "electronic"},
+          "isDefault": {"type": "string", "example": "true"}
+        } 
       }
     }
   }

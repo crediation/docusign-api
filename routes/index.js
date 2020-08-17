@@ -51,4 +51,21 @@ router.post('/envelopes',  function (req, res, next) {
   }); 
 });
 
+/* GET - Get a list of Envelopes' documents */
+router.get('/envelopes/:envelopeId/documents', function(req, res, next) {
+  axios.get(`accounts/${accountId}/envelopes/${req.params.envelopeId}/documents`)
+  .then(response => {
+    console.log(response.data);
+    res.status(response.status).send({
+      data: response.data
+    })
+  })
+  .catch(error => {
+    console.log(error.response);
+    res.status(error.response.status).send({
+      data: error.response.data
+    });
+  });
+});
+
 module.exports = router;
