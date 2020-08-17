@@ -21,12 +21,12 @@
     "schemes": [
       "http"
     ],
+    "produces": ["application/json"],
+    "consumes": ["application/json"],
     "paths": {
       "/templates": {
         "get": {
           "summary": "Get all templates",
-          "produces": ["application/json"],
-          "consumes": ["application/json"],
           "security": [
             {
               "Bearer": []
@@ -38,38 +38,61 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/definitions/Envelope"
+                  "$ref": "#/definitions/Template"
                 }
               }
             }
           }
         }
       },
-      "/task": {
+      "/envelopes": {
         "post": {
-          "summary": "Add a new task",
-          "description": "",
-          "operationId": "addTask",
-          "consumes": [
-            "application/json"
-          ],
-          "produces": [
-            "application/json"
+          "summary": "Create an envelope",
+          "security": [
+            {
+              "Bearer": []
+            }
           ],
           "parameters": [
             {
               "in": "body",
               "name": "body",
-              "description": "Task object to be created.",
+              "description": "Envelope object to be created.",
               "required": true,
               "schema": {
-                "$ref": "#/definitions/Task"
+                "$ref": "#/definitions/Envelope"
               }
             }
           ],
           "responses": {
-            "405": {
-              "description": "Invalid input"
+            "201": {
+              "description": "Envelope created",
+              "schema": {
+                "type": "object",
+                "properties":{
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "envelopeId": {"type": "string", "example": "f3620881-3d18-406e-9c2a-0c1de321808a"},
+                      "uri": {"type": "string", "example": "/envelopes/f3620881-3d18-406e-9c2a-0c1de321808a"},
+                      "statusDateTime": {"type": "string", "example": "2020-08-17T09:30:43.5000000Z"},
+                      "status": {"type": "string", "example": "sent"}
+                    }
+                  } 
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not found"
+            },
+            "415": {
+              "description": "Unsupported Media Type"
+            },
+            "500": {
+              "description": "Internal Server Error"
             }
           }
         }
@@ -77,6 +100,20 @@
     },
     "definitions": {
       "Envelope": {
+        "type": "object",
+        "properties": {
+          "emailSubject": {"type": "string", "example": "Please sign the loan contract"},
+          "status": {"type": "string", "example": "sent"},
+          "templateId": {"type": "string", "example": "3e14c269-a599-4c2d-9350-b6ae7c0b2e80"},
+          "templateRoles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Roles"
+            }
+          }
+        }
+      },
+      "Template": {
         "type": "object",
         "properties": {
           "templateId": {"type": "string"},
@@ -109,24 +146,12 @@
           "email": {"type": "string"}
         }
       },
-      "Task": {
+      "Roles": {
         "type": "object",
-        "required": [
-          "name",
-          "completed"
-        ],
         "properties": {
-          "id": {
-            "type": "string",
-            "example": "5daa67e25967673780ccc4d9"
-          },
-          "name": {
-            "type": "string",
-            "example": "Task 1"
-          },
-          "completed": {
-            "type": "boolean"
-          }
+          "email": {"type": "string", "example": "user@crediation.com"},
+          "name": {"type": "string", "example": "Sample User"},
+          "roleName": {"type": "string", "example": "applicant"}
         }
       }
     }
